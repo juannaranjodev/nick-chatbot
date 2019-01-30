@@ -797,6 +797,28 @@ function addVirtualAssistant() {
     console.log("VA: addVirtualAssistant complete");
 }
 
+/** TODO: FETCH WITH TIMEOUT FUNCTIONS **/
+function fetchWithTimeout(url, options, timeout = 5000) {
+    return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('timeout')), timeout)
+        )
+    ]);
+}
+
+// TODO: check later
+async function checkAddingVA() {
+    const res = await fetchWithTimeout('https://anna.govlawtech.com.au/api/heartbeat', { method: 'GET'}, 5000)
+    
+    // console.log("--------call heartbeat", res);
+    if(res && res.status !== 200) {
+        console.log("anton: [addVirtualAssistant] res != 200");
+        return;
+    }
+    addVirtualAssistant();
+}
+
 /** OTHER FUNCTIONS **/
 
 /**
@@ -815,6 +837,7 @@ function isIE() {
 }
 
 //On load, add the virtual assistant to the page.
-window.onload = addVirtualAssistant();
-
+// TODO: check later
+window.onload = checkAddingVA();
+//document.onload = checkAddingVA();
 console.log("VA File loaded");

@@ -1,7 +1,6 @@
 import memoize from 'memoize-one';
 import React from 'react';
 import ReactWebChat, { createDirectLine, createStyleSet } from 'botframework-webchat';
-
 import './WebChat.css';
 
 export default class extends React.Component {
@@ -13,7 +12,9 @@ export default class extends React.Component {
     this.state = {
       styleSet: createStyleSet({
         backgroundColor: 'white',
-        hideUploadButton: true
+        hideUploadButton: true,
+        bubbleBackground: 'rgba(0, 0, 255, 0.1)',
+        bubbleFromUserBackground: 'rgba(255, 255, 0, 0.1)'
       })
     };
   }
@@ -33,7 +34,9 @@ export default class extends React.Component {
         <ReactWebChat
           className={ `${ className || '' } web-chat` }
           directLine={ this.createDirectLine(token) }
-          store={ store }
+          //store={ store }
+          botAvatarInitials='BF'
+          userAvatarInitials='WC'
           styleSet={ styleSet }
         /> 
       :
