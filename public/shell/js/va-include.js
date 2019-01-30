@@ -811,7 +811,6 @@ function fetchWithTimeout(url, options, timeout = 5000) {
 async function checkAddingVA() {
     const res = await fetchWithTimeout('https://anna.govlawtech.com.au/api/heartbeat', { method: 'GET'}, 5000)
     
-    // console.log("--------call heartbeat", res);
     if(res && res.status !== 200) {
         console.log("anton: [addVirtualAssistant] res != 200");
         return;
