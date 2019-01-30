@@ -1,6 +1,6 @@
 import React from 'react';
-import { createStore } from 'redux';
-import { createStyleSet } from 'botframework-webchat';
+import { createStore, createStyleSet } from 'botframework-webchat';
+import { getBotEndpoint } from './ApiEndpointsConfig';
 
 import WebChat from './WebChat';
 
@@ -53,8 +53,6 @@ export default class extends React.Component {
 
    handleFetchToken = async () => {
     if (!this.state.token) {
-      // TODO: check later
-      //const res = await fetch('/api/directlineToken', { method: 'POST' });
       const res = await fetch('https://anna.govlawtech.com.au/api/directlineToken', { method: 'POST' });
       const { token } = await res.json();
       console.log("anton: [handleFetchToken], token => ", token);
