@@ -9,10 +9,6 @@ import './MinimizableWebChat.css';
 export default class extends React.Component {
   constructor(props) {
     super(props);
-
-    
-    
-    this.handleFetchToken = this.handleFetchToken.bind(this);
   
     const store = createStore({}, ({ dispatch }) => next => action => {
       if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
@@ -39,8 +35,6 @@ export default class extends React.Component {
       return next(action);
     });
 
-
-
     this.state = {
        store,
       styleSet: createStyleSet({
@@ -50,7 +44,7 @@ export default class extends React.Component {
     };
   }
 
-  async handleFetchToken() {
+  handleFetchToken = async () => {
     if (!this.state.token) {
       const res = await fetch('https://anna.govlawtech.com.au/api/directlineToken', { method: 'POST' });
       const { token } = await res.json();
@@ -59,7 +53,6 @@ export default class extends React.Component {
     }
   }
 
- 
   render() {
     const { state: {
       store,
@@ -70,24 +63,20 @@ export default class extends React.Component {
     return (
       <div className="minimizable-web-chat">
         {
-          
-            <div
-              className={  'chat-box' }
-            >
-                  <div className= {'chat-box-header'}>
-                  <div className="chat-box-header-text">
-                   Ask "ANNA": Army, Navy 'n' Airforce
-                  </div>
-                  </div>
-               
-              <WebChat
-                className="react-web-chat"
-                onFetchToken={ this.handleFetchToken }
-                store={ store }
-                styleSet={ styleSet }
-                token={ token }
-              />
+          <div className={ 'chat-box' }>
+            <div className= {'chat-box-header'}>
+              <div className="chat-box-header-text">
+                Ask "ANNA": Army, Navy 'n' Airforce
+              </div>
             </div>
+              
+            <WebChat
+              className="react-web-chat"
+              onFetchToken={ this.handleFetchToken }
+              store={ store }
+              styleSet={ styleSet }
+              token={ token } />
+          </div>
         }
       </div>
     );

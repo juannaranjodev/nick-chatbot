@@ -34,8 +34,7 @@ export default class extends React.Component {
           className={ `${ className || '' } web-chat` }
           directLine={ this.createDirectLine(token) }
           store={ store }
-          styleSet={ styleSet }
-        /> 
+          styleSet={ styleSet } /> 
       :
         <div className={ `${ className || '' } connect-spinner` }>
           <div className="content">
