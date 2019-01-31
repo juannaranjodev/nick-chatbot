@@ -1,10 +1,85 @@
 import memoize from 'memoize-one';
-import React from 'react';
-import ReactWebChat, { createDirectLine, createStyleSet } from 'botframework-webchat';
+import React, { Component } from 'react';
+import ReactWebChat, { createDirectLine, createStyleSet, connectToWebChat } from 'botframework-webchat';
+import { css } from 'glamor'
 
 import './WebChat.css';
 
-export default class extends React.Component {
+const ACTIVITY_WITH_FEEDBACK_CSS = css({
+  minHeight: 60,
+  position: 'relative',
+  '& > .activity': {
+    paddingLeft: 40
+  },
+  '& > .button-bar': {
+    listStyleType: 'none',
+    margin: '0 0 0 10px',
+    padding: 0,
+    position: 'absolute',
+    '& > li > button': {
+      background: 'White',
+      border: 'solid 1px #E6E6E6',
+      cursor: 'pointer',
+      marginBottom: 2,
+      padding: '2px 5px 5px'
+    }
+  }
+});
+
+class ActivityWithFeedback extends Component {
+  handleDownvoteButton = () => this.props.postActivity({
+    type: 'message',
+    name: 'evaluate-activity',
+    value: { activityID: this.props.activityID, score: -1 } 
+  })
+  handleUpvoteButton = () => this.props.postActivity({
+    type: 'message',
+    name: 'evaluate-activity',
+    value: { activityID: this.props.activityID, score: 1 } 
+  })
+
+  render() {
+    const { props } = this;
+    return (
+      <div className={ ACTIVITY_WITH_FEEDBACK_CSS }>
+        <ul className="button-bar">
+          <li>
+            <button onClick={ this.handleUpvoteButton }>
+              <span role='img' aria-label="up">👍</span>
+            </button>
+          </li>
+          <li>
+            <button onClick={ this.handleDownvoteButton }>
+              <span role='img' aria-label="down">👎</span>
+            </button>
+          </li>
+        </ul>
+        <div className="activity">
+          { props.children }
+        </div>
+      </div>
+    );
+  }
+}
+
+const ConnectedActivityWithFeedback = connectToWebChat(
+  ({ postActivity }) => ({ postActivity })
+)(props => <ActivityWithFeedback { ...props } />)
+
+const activityMiddleware = () => next => card => {
+  if (card.activity.from.role === 'bot') {
+    return (
+      children =>
+        <ConnectedActivityWithFeedback activityID={ card.activity.id }>
+          { next(card)(children) }
+        </ConnectedActivityWithFeedback>
+    );
+  } else {
+    return next(card);
+  }
+};
+
+export default class extends Component {
   constructor(props) {
     super(props);
 
@@ -31,6 +106,7 @@ export default class extends React.Component {
     return (
       token ?
         <ReactWebChat
+          activityMiddleware={ activityMiddleware }
           className={ `${ className || '' } web-chat` }
           directLine={ this.createDirectLine(token) }
           store={ store }

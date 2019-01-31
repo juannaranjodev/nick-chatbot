@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { createStore, createStyleSet } from 'botframework-webchat';
 
 import WebChat from './WebChat';
@@ -6,7 +6,7 @@ import WebChat from './WebChat';
 import './fabric-icons-inline.css';
 import './MinimizableWebChat.css';
 
-export default class extends React.Component {
+export default class extends Component {
   constructor(props) {
     super(props);
   
@@ -36,17 +36,19 @@ export default class extends React.Component {
     });
 
     this.state = {
-       store,
+      store,
       styleSet: createStyleSet({
         backgroundColor: 'white'
       }),
-        token: null
+      token: null
     };
   }
 
   handleFetchToken = async () => {
     if (!this.state.token) {
-      const res = await fetch('https://anna.govlawtech.com.au/api/directlineToken', { method: 'POST' });
+      // TODO: test with sample token
+      // const res = await fetch('https://anna.govlawtech.com.au/api/directlineToken', { method: 'POST' });
+      const res = await fetch('https://webchat-mockbot.azurewebsites.net/directline/token', { method: 'POST' });
       const { token } = await res.json();
 
       this.setState(() => ({ token }));

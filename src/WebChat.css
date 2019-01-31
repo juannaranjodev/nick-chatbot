@@ -15,3 +15,7 @@
 .connect-spinner > .content > .icon {
   font-size: 64px;
 }
+
+code {
+  font-family: 'Calibri', 'Helvetica Neue', 'Arial', 'sans-serif';     
+}
