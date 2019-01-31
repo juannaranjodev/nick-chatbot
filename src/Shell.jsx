@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStore, createStyleSet } from 'botframework-webchat';
-import { getBotEndpoint } from './ApiEndpointsConfig';
 
 import WebChat from './WebChat';
 
@@ -13,7 +12,7 @@ export default class extends React.Component {
 
     
     
-    // this.handleFetchToken = this.handleFetchToken.bind(this);
+    this.handleFetchToken = this.handleFetchToken.bind(this);
   
     const store = createStore({}, ({ dispatch }) => next => action => {
       if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
@@ -43,7 +42,7 @@ export default class extends React.Component {
 
 
     this.state = {
-       //store,
+       store,
       styleSet: createStyleSet({
         backgroundColor: 'white'
       }),
@@ -51,11 +50,11 @@ export default class extends React.Component {
     };
   }
 
-   handleFetchToken = async () => {
+  async handleFetchToken() {
     if (!this.state.token) {
       const res = await fetch('https://anna.govlawtech.com.au/api/directlineToken', { method: 'POST' });
       const { token } = await res.json();
-      console.log("anton: [handleFetchToken], token => ", token);
+
       this.setState(() => ({ token }));
     }
   }
@@ -84,7 +83,7 @@ export default class extends React.Component {
               <WebChat
                 className="react-web-chat"
                 onFetchToken={ this.handleFetchToken }
-                //store={ store }
+                store={ store }
                 styleSet={ styleSet }
                 token={ token }
               />
