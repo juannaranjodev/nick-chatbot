@@ -11,21 +11,22 @@ export default class extends Component {
     super(props);
   
     const store = createStore({}, ({ dispatch }) => next => action => {
+      // TODO: removed first message from chat server
       if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
-        setTimeout(() => {
-          dispatch({
-            type: 'DIRECT_LINE/POST_ACTIVITY',
-            payload: {
-              activity: {
-                name: 'webchat/join',
-                type: 'event',
-                value: {
-                  language: window.navigator.language
-                }
-              }
-            }
-          });
-        }, 1000);
+        // setTimeout(() => {
+        //   dispatch({
+        //     type: 'DIRECT_LINE/POST_ACTIVITY',
+        //     payload: {
+        //       activity: {
+        //         name: 'webchat/join',
+        //         type: 'event',
+        //         value: {
+        //           language: window.navigator.language
+        //         }
+        //       }
+        //     }
+        //   });
+        // }, 1000);
       } else if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         if (action.payload.activity.from.role === 'bot') {
           this.setState(() => ({ newMessage: true }));
@@ -33,6 +34,13 @@ export default class extends Component {
       }
 
       return next(action);
+    });
+
+    store.getState().activities.push({
+      name: 'webchat/join',
+      type: 'message',
+      text: 'Hello I’m Digital Assistant.\n\nYou can ask me general questions.\n\nIf you’d like to know more, type help.\n\n How can I help you today?',
+      from: { role: 'bot' },
     });
 
     this.state = {
