@@ -54,11 +54,8 @@ export default class extends Component {
 
   handleFetchToken = async () => {
     if (!this.state.token) {
-      // TODO: test with sample token
-      // const res = await fetch('https://anna.govlawtech.com.au/api/directlineToken', { method: 'POST' });
-      const res = await fetch('https://webchat-mockbot.azurewebsites.net/directline/token', { method: 'POST' });
+      const res = await fetch('https://anna.govlawtech.com.au/api/directlineToken', { method: 'POST' });
       const { token } = await res.json();
-
       this.setState(() => ({ token }));
     }
   }
