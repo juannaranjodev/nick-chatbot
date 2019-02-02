@@ -39,7 +39,7 @@ export default class extends Component {
     store.getState().activities.push({
       name: 'webchat/join',
       type: 'message',
-      text: 'Hello I’m Digital Assistant.\n\nYou can ask me general questions.\n\nIf you’d like to know more, type help.\n\n How can I help you today?',
+      text: "Hello I'm Digital Assistant.\n\nYou can ask me general questions.\n\nIf you'd like to know more, type help.\n\n How can I help you today?",
       from: { role: 'bot' },
     });
 
@@ -67,6 +67,8 @@ export default class extends Component {
       token
     } } = this;
 
+    if (!token) return null;
+    
     return (
       <div className="minimizable-web-chat">
         {
