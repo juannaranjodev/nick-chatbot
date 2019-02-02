@@ -11,23 +11,7 @@ export default class extends Component {
     super(props);
   
     const store = createStore({}, ({ dispatch }) => next => action => {
-      // TODO: removed first message from chat server
-      if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
-        // setTimeout(() => {
-        //   dispatch({
-        //     type: 'DIRECT_LINE/POST_ACTIVITY',
-        //     payload: {
-        //       activity: {
-        //         name: 'webchat/join',
-        //         type: 'event',
-        //         value: {
-        //           language: window.navigator.language
-        //         }
-        //       }
-        //     }
-        //   });
-        // }, 1000);
-      } else if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
+      if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         if (action.payload.activity.from.role === 'bot') {
           this.setState(() => ({ newMessage: true }));
         }
@@ -67,8 +51,6 @@ export default class extends Component {
       token
     } } = this;
 
-    if (!token) return null;
-    
     return (
       <div className="minimizable-web-chat">
         {
