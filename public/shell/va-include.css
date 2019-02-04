@@ -34,7 +34,7 @@
     line-height: 1;
     transition: 1s;
     color: #FFFFFF;
-    display: block;
+    display: block! important;
 }
 
 .va_iframe {

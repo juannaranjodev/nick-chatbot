@@ -143,6 +143,7 @@ function insertDiv() {
     chatAnchor.id = 'va_chatAnchor';
     chatAnchor.className = 'va_chatAnchor';
     chatAnchor.zIndex = 99999;
+    chatAnchor.style.cssText = 'display:none;';
 
     $('head').append('<link href="/shell/va-include.css" rel="stylesheet">');
 
