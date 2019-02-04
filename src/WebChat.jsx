@@ -103,6 +103,8 @@ export default class extends Component {
       state: { styleSet }
     } = this;
 
+    styleSet.uploadButton.width = 0;
+    
     return (
       token ?
         <ReactWebChat
